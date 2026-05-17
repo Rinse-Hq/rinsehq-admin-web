@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #eef6fb;
+  --color-brand-400: #5aa8cc;
+  --color-brand-500: #4699c2;
+  --color-brand-600: #3a86ad;
+  --color-brand-700: #2f6f91;
+  --color-surface: #f4f6f8;
+  --shadow-card: 0 8px 30px rgba(15, 23, 42, 0.08);
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-slate-900 antialiased;
+  }
+}

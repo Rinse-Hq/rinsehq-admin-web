@@ -1,36 +1,23 @@
-import { auth } from "@/infrastructure/auth";
+import { CompletedOrderChart } from "@/presentation/components/dashboard/completed-order-chart";
+import { DashboardPageHeader } from "@/presentation/components/dashboard/dashboard-page-header";
+import { OrderHistoryTable } from "@/presentation/components/dashboard/order-history-table";
+import { OrderSummaryCards } from "@/presentation/components/dashboard/order-summary-cards";
+import { RevenueDonutChart } from "@/presentation/components/dashboard/revenue-donut-chart";
 
-export default async function DashboardPage() {
-  const session = await auth();
-
+export default function DashboardPage() {
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900">Overview</h2>
-        <p className="mt-2 text-sm text-slate-600">
-          Welcome to rinsehq. You&apos;re signed in as{" "}
-          <span className="font-medium text-slate-900">
-            {session?.user?.email}
-          </span>
-          .
-        </p>
-      </section>
+      <DashboardPageHeader />
+      <OrderSummaryCards />
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {[
-          { label: "Active orders", value: "0" },
-          { label: "Customers", value: "0" },
-          { label: "Revenue today", value: "$0" },
-        ].map((stat) => (
-          <article
-            key={stat.label}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
-          >
-            <p className="text-sm text-slate-500">{stat.label}</p>
-            <p className="mt-2 text-3xl font-bold text-slate-900">{stat.value}</p>
-          </article>
-        ))}
+      <div className="grid gap-4 xl:grid-cols-3">
+        <div className="xl:col-span-2">
+          <CompletedOrderChart />
+        </div>
+        <RevenueDonutChart />
       </div>
+
+      <OrderHistoryTable />
     </div>
   );
 }

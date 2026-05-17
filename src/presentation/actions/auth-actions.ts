@@ -3,7 +3,7 @@
 import { AuthError } from "next-auth";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
-import { signUpSchema } from "@/application/dtos/auth-dtos";
+import { signInSchema, signUpSchema } from "@/application/dtos/auth-dtos";
 import { signUpUseCase } from "@/infrastructure/di/container";
 import { signIn } from "@/infrastructure/auth";
 
@@ -49,19 +49,43 @@ export async function signUpAction(
   redirect("/dashboard");
 }
 
+function resolveCallbackUrl(raw: string): string {
+  if (raw.startsWith("/") && !raw.startsWith("//")) {
+    return raw;
+  }
+  return "/dashboard";
+}
+
 export async function signInAction(
   _prev: AuthFormState,
   formData: FormData,
 ): Promise<AuthFormState> {
-  const email = String(formData.get("email") ?? "");
-  const password = String(formData.get("password") ?? "");
+  const raw = {
+    email: String(formData.get("email") ?? ""),
+    password: String(formData.get("password") ?? ""),
+  };
+
+  const parsed = signInSchema.safeParse(raw);
+  if (!parsed.success) {
+    return {
+      error: parsed.error.errors[0]?.message ?? "Invalid input",
+    };
+  }
+
+  const callbackUrl = resolveCallbackUrl(
+    String(formData.get("callbackUrl") ?? "/dashboard"),
+  );
 
   try {
-    await signIn("credentials", {
-      email,
-      password,
-      redirectTo: "/dashboard",
+    const result = await signIn("credentials", {
+      email: parsed.data.email,
+      password: parsed.data.password,
+      redirect: false,
     });
+
+    if (result?.error) {
+      return { error: "Invalid email or password" };
+    }
   } catch (error) {
     if (isRedirectError(error)) throw error;
     if (error instanceof AuthError) {
@@ -70,7 +94,7 @@ export async function signInAction(
     throw error;
   }
 
-  return {};
+  redirect(callbackUrl);
 }
 
 export async function signOutAction() {

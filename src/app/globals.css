@@ -2,12 +2,20 @@
 
 @theme {
   --color-brand-50: #eef6fb;
+  --color-brand-100: #d9ecf5;
   --color-brand-400: #5aa8cc;
   --color-brand-500: #4699c2;
   --color-brand-600: #3a86ad;
   --color-brand-700: #2f6f91;
-  --color-surface: #f4f6f8;
-  --shadow-card: 0 8px 30px rgba(15, 23, 42, 0.08);
+  --color-sidebar: #3489a1;
+  --color-sidebar-active: #2a7589;
+  --color-accent: #5eb8d4;
+  --color-surface: #f0f2f5;
+  --color-status-active: #3b82f6;
+  --color-status-completed: #22c55e;
+  --color-status-pending: #ef4444;
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --font-serif: "Georgia", "Times New Roman", serif;
 }
 
 @layer base {

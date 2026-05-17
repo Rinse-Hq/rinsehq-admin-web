@@ -9,8 +9,31 @@ type StoredUser = User & { passwordHash: string };
 
 const users = new Map<string, StoredUser>();
 
+const DEMO_USER = {
+  email: "demo@rinsehq.com",
+  password: "Demo1234!",
+  name: "Laundry Care",
+};
+
 export class InMemoryAuthRepository implements AuthRepository {
+  private seeded = false;
+
+  private async ensureDemoUser() {
+    if (this.seeded) return;
+    this.seeded = true;
+
+    const existing = await this.findByEmail(DEMO_USER.email);
+    if (!existing) {
+      await this.create({
+        email: DEMO_USER.email,
+        password: DEMO_USER.password,
+        name: DEMO_USER.name,
+      });
+    }
+  }
+
   async findByEmail(email: string): Promise<User | null> {
+    await this.ensureDemoUser();
     const normalized = email.toLowerCase();
     for (const user of users.values()) {
       if (user.email === normalized) {
@@ -21,6 +44,7 @@ export class InMemoryAuthRepository implements AuthRepository {
   }
 
   async create(input: CreateUserInput): Promise<User> {
+    await this.ensureDemoUser();
     const email = input.email.toLowerCase();
     const id = crypto.randomUUID();
     const passwordHash = await hash(input.password, 12);
@@ -38,6 +62,7 @@ export class InMemoryAuthRepository implements AuthRepository {
   async validateCredentials(
     credentials: UserCredentials,
   ): Promise<User | null> {
+    await this.ensureDemoUser();
     const user = await this.findByEmail(credentials.email);
     if (!user) return null;
 

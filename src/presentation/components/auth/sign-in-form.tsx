@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { signInSchema } from "@/application/dtos/auth-dtos";
 import { signInAction } from "@/presentation/actions/auth-actions";
 import { Button } from "@/presentation/components/ui/button";
 import { Input } from "@/presentation/components/ui/input";
@@ -8,8 +9,39 @@ import { PasswordInput } from "@/presentation/components/ui/password-input";
 
 const initialState = { error: "" as string | undefined };
 
-export function SignInForm() {
+type SignInFormProps = {
+  callbackUrl?: string;
+};
+
+export function SignInForm({ callbackUrl = "/dashboard" }: SignInFormProps) {
   const [state, formAction, pending] = useActionState(signInAction, initialState);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const parsed = signInSchema.safeParse({
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
+
+    if (!parsed.success) {
+      const errors: Record<string, string> = {};
+      for (const issue of parsed.error.errors) {
+        const key = issue.path[0];
+        if (key && !errors[String(key)]) {
+          errors[String(key)] = issue.message;
+        }
+      }
+      setFieldErrors(errors);
+      return;
+    }
+
+    setFieldErrors({});
+    formAction(formData);
+  }
 
   return (
     <div className="rounded-2xl bg-white px-8 py-10 shadow-card">
@@ -25,7 +57,9 @@ export function SignInForm() {
         </p>
       </header>
 
-      <form action={formAction} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <input type="hidden" name="callbackUrl" value={callbackUrl} />
+
         <Input
           name="email"
           type="email"
@@ -33,6 +67,7 @@ export function SignInForm() {
           placeholder="Enter email address"
           autoComplete="email"
           required
+          error={fieldErrors.email}
         />
         <PasswordInput
           name="password"
@@ -40,6 +75,7 @@ export function SignInForm() {
           placeholder="••••••••"
           autoComplete="current-password"
           required
+          error={fieldErrors.password}
         />
 
         {state.error ? (
@@ -52,6 +88,11 @@ export function SignInForm() {
           Log In
         </Button>
       </form>
+
+      <p className="mt-6 rounded-lg bg-brand-50 px-3 py-2 text-center text-xs text-slate-600">
+        Demo: <span className="font-medium">demo@rinsehq.com</span> /{" "}
+        <span className="font-medium">Demo1234!</span>
+      </p>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 export default function OrdersPage() {
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="text-lg font-semibold text-slate-900">Orders</h2>
-      <p className="mt-2 text-sm text-slate-600">No orders yet.</p>
+    <section className="rounded-xl border border-slate-100 bg-white p-6 shadow-card">
+      <h1 className="text-xl font-semibold text-slate-900">Orders</h1>
+      <p className="mt-2 text-sm text-slate-600">Order management coming soon.</p>
     </section>
   );
 }

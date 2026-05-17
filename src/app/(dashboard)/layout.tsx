@@ -13,10 +13,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <DashboardShell
-      userName={session.user.name}
-      userEmail={session.user.email}
-    >
+    <DashboardShell userName={session.user.name ?? "Laundry Care"}>
       {children}
     </DashboardShell>
   );

@@ -5,20 +5,15 @@ import { DashboardSidebar } from "@/presentation/components/dashboard/dashboard-
 type DashboardShellProps = {
   children: ReactNode;
   userName?: string | null;
-  userEmail?: string | null;
 };
 
-export function DashboardShell({
-  children,
-  userName,
-  userEmail,
-}: DashboardShellProps) {
+export function DashboardShell({ children, userName }: DashboardShellProps) {
   return (
     <div className="flex min-h-screen bg-surface">
       <DashboardSidebar />
       <div className="flex min-w-0 flex-1 flex-col">
-        <DashboardHeader userName={userName} userEmail={userEmail} />
-        <main className="flex-1 p-6 lg:p-8">{children}</main>
+        <DashboardHeader userName={userName} />
+        <main className="flex-1 overflow-auto p-5 lg:p-6">{children}</main>
       </div>
     </div>
   );

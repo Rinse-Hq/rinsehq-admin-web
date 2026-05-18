@@ -1,14 +1,20 @@
 type CheckboxFieldProps = {
   label: string;
   name?: string;
+  defaultChecked?: boolean;
 };
 
-export function CheckboxField({ label, name }: CheckboxFieldProps) {
+export function CheckboxField({
+  label,
+  name,
+  defaultChecked,
+}: CheckboxFieldProps) {
   return (
     <label className="flex cursor-pointer items-center gap-2.5 text-sm text-slate-700">
       <input
         type="checkbox"
         name={name}
+        defaultChecked={defaultChecked}
         className="h-4 w-4 rounded-sm border-slate-300 text-brand-500 focus:ring-1 focus:ring-brand-500"
       />
       <span>{label}</span>

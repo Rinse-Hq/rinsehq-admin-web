@@ -5,16 +5,16 @@ import { OnboardingProgress } from "@/presentation/components/onboarding/onboard
 function PhoneField({ label }: { label: string }) {
   return (
     <div className="space-y-2">
-      <span className="block text-sm font-semibold text-slate-800">{label}</span>
+      <span className="block text-sm font-medium text-slate-800">{label}</span>
       <div className="flex gap-2">
-        <div className="flex h-12 shrink-0 items-center gap-2 rounded-xl bg-slate-100 px-3 text-sm text-slate-700">
+        <div className="flex h-12 shrink-0 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-700">
           <span aria-hidden>🇳🇬</span>
           <span>+234</span>
         </div>
         <input
           type="tel"
           placeholder="Phone number"
-          className="h-12 flex-1 rounded-xl border border-transparent bg-slate-100 px-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-200"
+          className="flat-input flex-1"
         />
       </div>
     </div>
@@ -23,7 +23,7 @@ function PhoneField({ label }: { label: string }) {
 
 export function BusinessAddressForm() {
   return (
-    <div className="rounded-2xl bg-white px-8 py-10 shadow-card">
+    <div className="flat-card px-8 py-10">
       <OnboardingProgress step={2} />
 
       <header className="mb-6 space-y-1">
@@ -40,16 +40,11 @@ export function BusinessAddressForm() {
         <div className="space-y-2">
           <label
             htmlFor="country"
-            className="block text-sm font-semibold text-slate-800"
+            className="block text-sm font-medium text-slate-800"
           >
             Country
           </label>
-          <select
-            id="country"
-            name="country"
-            defaultValue="nigeria"
-            className="h-12 w-full rounded-xl border border-transparent bg-slate-100 px-4 text-sm text-slate-900 focus:border-brand-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-200"
-          >
+          <select id="country" name="country" defaultValue="nigeria" className="flat-input">
             <option value="nigeria">🇳🇬 Nigeria</option>
           </select>
         </div>

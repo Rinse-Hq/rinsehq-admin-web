@@ -9,7 +9,7 @@ export function CheckboxField({ label, name }: CheckboxFieldProps) {
       <input
         type="checkbox"
         name={name}
-        className="h-4 w-4 rounded border-slate-300 text-brand-500 focus:ring-brand-400"
+        className="h-4 w-4 rounded-sm border-slate-300 text-brand-500 focus:ring-1 focus:ring-brand-500"
       />
       <span>{label}</span>
     </label>

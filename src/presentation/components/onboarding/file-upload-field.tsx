@@ -94,7 +94,7 @@ export function FileUploadField({
 
   return (
     <div className={cn("space-y-2", className)}>
-      <label htmlFor={inputId} className="block text-sm font-semibold text-slate-800">
+      <label htmlFor={inputId} className="block text-sm font-medium text-slate-800">
         {label}
       </label>
 
@@ -111,13 +111,13 @@ export function FileUploadField({
       {!file ? (
         <label
           htmlFor={inputId}
-          className="flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 px-4 py-8 text-center transition-colors hover:border-brand-300 hover:bg-brand-50/50"
+          className="flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-slate-300 bg-white px-4 py-8 text-center hover:border-brand-500"
         >
           <UploadIcon />
           <span className="text-xs text-slate-500">{hint}</span>
         </label>
       ) : (
-        <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+        <div className="relative overflow-hidden rounded-md border border-slate-200 bg-white">
           {previewUrl ? (
             <div className="relative aspect-[4/3] w-full">
               <Image

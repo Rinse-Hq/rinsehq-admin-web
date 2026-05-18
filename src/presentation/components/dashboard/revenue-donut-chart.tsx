@@ -8,7 +8,7 @@ export function RevenueDonutChart() {
   const failedLength = circumference - successLength;
 
   return (
-    <article className="rounded-xl border border-slate-100 bg-white p-5 shadow-card">
+    <article className="rounded-xl border border-slate-100 bg-white p-5">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h2 className="font-serif text-lg font-semibold text-slate-800">
           Total Revenue

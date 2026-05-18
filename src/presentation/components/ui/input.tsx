@@ -13,15 +13,15 @@ export function Input({ label, error, className, id, ...props }: InputProps) {
     <div className="space-y-2">
       <label
         htmlFor={inputId}
-        className="block text-sm font-semibold text-slate-800"
+        className="block text-sm font-medium text-slate-800"
       >
         {label}
       </label>
       <input
         id={inputId}
         className={cn(
-          "h-12 w-full rounded-xl border border-transparent bg-slate-100 px-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-200",
-          error && "border-red-300 focus:border-red-400 focus:ring-red-100",
+          "flat-input",
+          error && "border-red-400 focus:border-red-500",
           className,
         )}
         {...props}

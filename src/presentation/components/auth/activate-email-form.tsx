@@ -6,7 +6,7 @@ import { cn } from "@/presentation/lib/utils";
 
 export function ActivateEmailForm() {
   return (
-    <div className="rounded-2xl bg-white px-8 py-10 shadow-card">
+    <div className="flat-card px-8 py-10">
       <header className="mb-8 space-y-2 text-center">
         <h1 className="font-serif text-2xl font-bold text-slate-900">
           Activate Your Email
@@ -37,20 +37,10 @@ export function ActivateEmailForm() {
         </p>
 
         <div className="flex gap-3">
-          <Link
-            href="/signup"
-            className={cn(
-              "inline-flex h-12 w-1/2 items-center justify-center rounded-xl border border-slate-900 bg-white px-6 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50",
-            )}
-          >
+          <Link href="/signup" className={cn("flat-btn-outline w-1/2")}>
             Back
           </Link>
-          <Link
-            href="/account-activated"
-            className={cn(
-              "inline-flex h-12 w-1/2 items-center justify-center rounded-xl bg-brand-500 px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-600 active:bg-brand-700",
-            )}
-          >
+          <Link href="/account-activated" className={cn("flat-btn-primary w-1/2")}>
             Continue
           </Link>
         </div>

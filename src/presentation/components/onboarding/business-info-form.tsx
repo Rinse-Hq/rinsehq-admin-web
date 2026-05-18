@@ -5,7 +5,7 @@ import { OnboardingProgress } from "@/presentation/components/onboarding/onboard
 
 export function BusinessInfoForm() {
   return (
-    <div className="rounded-2xl bg-white px-8 py-10 shadow-card">
+    <div className="flat-card px-8 py-10">
       <OnboardingProgress step={2} />
 
       <header className="mb-6 space-y-1">
@@ -24,7 +24,7 @@ export function BusinessInfoForm() {
         <div className="space-y-2">
           <label
             htmlFor="businessBio"
-            className="block text-sm font-semibold text-slate-800"
+            className="block text-sm font-medium text-slate-800"
           >
             Business Bio
           </label>
@@ -33,7 +33,7 @@ export function BusinessInfoForm() {
             name="businessBio"
             rows={4}
             placeholder="Type Bio here"
-            className="w-full resize-none rounded-xl border border-transparent bg-slate-100 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-200"
+            className="flat-input min-h-[100px] resize-none py-3"
           />
         </div>
         <Input

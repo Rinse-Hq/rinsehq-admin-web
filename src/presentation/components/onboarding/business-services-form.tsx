@@ -31,7 +31,7 @@ const orderTypes = [
 
 export function BusinessServicesForm() {
   return (
-    <div className="rounded-2xl bg-white px-8 py-10 shadow-card">
+    <div className="flat-card px-8 py-10">
       <OnboardingProgress step={3} />
 
       <header className="mb-6 space-y-1">
@@ -66,7 +66,7 @@ export function BusinessServicesForm() {
               <input
                 type="text"
                 placeholder="Please other services type"
-                className="h-10 min-w-[200px] flex-1 rounded-xl border border-transparent bg-slate-100 px-3 text-sm placeholder:text-slate-400 focus:border-brand-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-200"
+                className="flat-input h-10 min-w-[200px] flex-1 py-2"
               />
             </div>
           </div>

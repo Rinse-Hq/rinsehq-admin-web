@@ -19,9 +19,9 @@ export function OnboardingProgress({
           (Exceptional management! rinsehq streamlines laundry)
         </span>
       </div>
-      <div className="relative h-2 overflow-hidden rounded-full bg-slate-200">
+      <div className="relative h-1.5 overflow-hidden rounded-sm bg-slate-200">
         <div
-          className="h-full rounded-full bg-brand-500 transition-all"
+          className="h-full bg-brand-500 transition-all"
           style={{ width: `${percent}%` }}
         />
         <span

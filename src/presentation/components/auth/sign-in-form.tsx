@@ -17,7 +17,7 @@ export function SignInForm({ callbackUrl = "/dashboard" }: SignInFormProps) {
   const [state, formAction, pending] = useActionState(signInAction, initialState);
 
   return (
-    <div className="rounded-2xl bg-white px-8 py-10 shadow-card">
+    <div className="flat-card px-8 py-10">
       <header className="mb-8 space-y-2 text-center">
         <h1 className="flex flex-wrap items-center justify-center gap-2 text-2xl font-bold text-slate-900">
           Welcome back to
@@ -56,7 +56,7 @@ export function SignInForm({ callbackUrl = "/dashboard" }: SignInFormProps) {
         </Button>
       </form>
 
-      <p className="mt-6 rounded-lg bg-brand-50 px-3 py-2 text-center text-xs text-slate-600">
+      <p className="mt-6 border border-slate-200 bg-white px-3 py-2 text-center text-xs text-slate-600">
         Demo: <span className="font-medium">demo@rinsehq.com</span> /{" "}
         <span className="font-medium">Demo1234!</span>
       </p>

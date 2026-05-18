@@ -11,12 +11,7 @@ export function OnboardingNextLink({
   label = "Next",
 }: OnboardingNextLinkProps) {
   return (
-    <Link
-      href={href}
-      className={cn(
-        "mt-6 inline-flex h-12 w-full items-center justify-center rounded-xl bg-brand-500 px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-600 active:bg-brand-700",
-      )}
-    >
+    <Link href={href} className={cn("mt-6 flat-btn-primary")}>
       {label}
     </Link>
   );

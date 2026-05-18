@@ -14,7 +14,7 @@ export function SignUpForm() {
   const [, formAction, pending] = useActionState(signUpAction, initialState);
 
   return (
-    <div className="rounded-2xl bg-white px-8 py-10 shadow-card">
+    <div className="flat-card px-8 py-10">
       <header className="mb-8 space-y-2 text-center">
         <h1 className="flex flex-wrap items-center justify-center gap-2 text-2xl font-bold text-slate-900">
           Welcome to

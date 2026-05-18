@@ -17,12 +17,10 @@ export function Button({
   return (
     <button
       className={cn(
-        "inline-flex h-12 w-full items-center justify-center rounded-xl px-6 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60",
-        variant === "primary" &&
-          "bg-brand-500 text-white hover:bg-brand-600 active:bg-brand-700",
-        variant === "ghost" && "bg-transparent text-brand-500 hover:bg-brand-50",
-        variant === "outline" &&
-          "border border-slate-900 bg-white text-slate-900 hover:bg-slate-50",
+        variant === "primary" && "flat-btn-primary",
+        variant === "ghost" &&
+          "inline-flex h-12 w-full items-center justify-center rounded-md bg-transparent px-6 text-sm font-medium text-brand-600 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 disabled:opacity-50",
+        variant === "outline" && "flat-btn-outline",
         className,
       )}
       disabled={disabled || isLoading}

@@ -37,7 +37,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       }
     >
       {emailVerified ? (
-        <p className="mb-4 rounded-lg bg-green-50 px-4 py-3 text-center text-sm text-green-800">
+        <p className="mb-4 border border-green-200 bg-green-50 px-4 py-3 text-center text-sm text-green-800">
           Email verified. You can sign in now.
         </p>
       ) : null}

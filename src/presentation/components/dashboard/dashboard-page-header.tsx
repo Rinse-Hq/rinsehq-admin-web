@@ -9,7 +9,7 @@ export function DashboardPageHeader() {
       </div>
       <Link
         href="/dashboard/orders/new"
-        className="inline-flex h-10 items-center rounded-lg bg-accent px-5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-500"
+        className="flat-btn-primary h-10 w-auto px-5"
       >
         Create order
       </Link>

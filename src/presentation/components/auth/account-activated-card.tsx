@@ -4,7 +4,7 @@ import { cn } from "@/presentation/lib/utils";
 
 export function AccountActivatedCard() {
   return (
-    <div className="rounded-2xl bg-white px-8 py-10 shadow-card">
+    <div className="flat-card px-8 py-10">
       <div className="flex flex-col items-center text-center">
         <div className="relative mb-6 flex h-32 w-32 items-center justify-center">
           <Image
@@ -25,12 +25,7 @@ export function AccountActivatedCard() {
           business on rinsehq.
         </p>
 
-        <Link
-          href="/onboarding/welcome"
-          className={cn(
-            "mt-8 inline-flex h-12 w-full items-center justify-center rounded-xl bg-brand-500 px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-600 active:bg-brand-700",
-          )}
-        >
+        <Link href="/onboarding/welcome" className={cn("mt-8 flat-btn-primary")}>
           Continue setup
         </Link>
       </div>

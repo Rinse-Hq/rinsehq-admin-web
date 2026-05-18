@@ -23,7 +23,7 @@ export function PasswordInput({
     <div className="space-y-2">
       <label
         htmlFor={inputId}
-        className="block text-sm font-semibold text-slate-800"
+        className="block text-sm font-medium text-slate-800"
       >
         {label}
       </label>
@@ -32,8 +32,8 @@ export function PasswordInput({
           id={inputId}
           type={visible ? "text" : "password"}
           className={cn(
-            "h-12 w-full rounded-xl border border-transparent bg-slate-100 px-4 pr-12 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-200",
-            error && "border-red-300 focus:border-red-400 focus:ring-red-100",
+            "flat-input pr-12",
+            error && "border-red-400 focus:border-red-500",
             className,
           )}
           {...props}

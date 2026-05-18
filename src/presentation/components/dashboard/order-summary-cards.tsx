@@ -28,7 +28,7 @@ export function OrderSummaryCards() {
           return (
             <article
               key={card.label}
-              className="flex items-center justify-between rounded-xl border border-slate-100 bg-white p-5 shadow-card"
+              className="flex items-center justify-between rounded-xl border border-slate-100 bg-white p-5"
             >
               <div>
                 <p className="text-3xl font-bold text-slate-900">{card.value}</p>

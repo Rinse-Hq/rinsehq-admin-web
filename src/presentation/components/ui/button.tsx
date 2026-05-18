@@ -2,7 +2,7 @@ import { cn } from "@/presentation/lib/utils";
 import type { ButtonHTMLAttributes } from "react";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "ghost";
+  variant?: "primary" | "ghost" | "outline";
   isLoading?: boolean;
 };
 
@@ -21,6 +21,8 @@ export function Button({
         variant === "primary" &&
           "bg-brand-500 text-white hover:bg-brand-600 active:bg-brand-700",
         variant === "ghost" && "bg-transparent text-brand-500 hover:bg-brand-50",
+        variant === "outline" &&
+          "border border-slate-900 bg-white text-slate-900 hover:bg-slate-50",
         className,
       )}
       disabled={disabled || isLoading}

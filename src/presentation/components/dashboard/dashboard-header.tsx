@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { signOutAction } from "@/presentation/actions/auth-actions";
+import { RinseHqLogo } from "@/presentation/components/ui/rinsehq-logo";
 
 type DashboardHeaderProps = {
   userName?: string | null;
@@ -10,8 +11,8 @@ export function DashboardHeader({ userName }: DashboardHeaderProps) {
 
   return (
     <header className="flex h-[72px] shrink-0 items-center gap-4 border-b border-slate-200 bg-white px-5 lg:px-6">
-      <Link href="/dashboard" className="shrink-0 text-xl font-bold text-slate-800">
-        rinse<span className="font-normal text-slate-600">hq</span>
+      <Link href="/dashboard" className="shrink-0">
+        <RinseHqLogo variant="light" className="h-7 w-auto" />
       </Link>
 
       <div className="mx-auto hidden w-full max-w-xl md:block">

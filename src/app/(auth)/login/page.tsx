@@ -5,7 +5,7 @@ import { AuthLayout } from "@/presentation/components/auth/auth-layout";
 import { SignInForm } from "@/presentation/components/auth/sign-in-form";
 
 type LoginPageProps = {
-  searchParams: Promise<{ callbackUrl?: string }>;
+  searchParams: Promise<{ callbackUrl?: string; verified?: string }>;
 };
 
 function resolveCallbackUrl(raw?: string): string {
@@ -17,8 +17,9 @@ function resolveCallbackUrl(raw?: string): string {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const session = await auth();
-  const { callbackUrl: rawCallback } = await searchParams;
+  const { callbackUrl: rawCallback, verified } = await searchParams;
   const callbackUrl = resolveCallbackUrl(rawCallback);
+  const emailVerified = verified === "1";
 
   if (session?.user) {
     redirect(callbackUrl);
@@ -35,6 +36,11 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         </>
       }
     >
+      {emailVerified ? (
+        <p className="mb-4 rounded-lg bg-green-50 px-4 py-3 text-center text-sm text-green-800">
+          Email verified. You can sign in now.
+        </p>
+      ) : null}
       <SignInForm callbackUrl={callbackUrl} />
     </AuthLayout>
   );

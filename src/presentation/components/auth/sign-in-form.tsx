@@ -1,11 +1,11 @@
 "use client";
 
-import { useActionState, useState } from "react";
-import { signInSchema } from "@/application/dtos/auth-dtos";
+import { useActionState } from "react";
 import { signInAction } from "@/presentation/actions/auth-actions";
 import { Button } from "@/presentation/components/ui/button";
 import { Input } from "@/presentation/components/ui/input";
 import { PasswordInput } from "@/presentation/components/ui/password-input";
+import { RinseHqLogo } from "@/presentation/components/ui/rinsehq-logo";
 
 const initialState = { error: "" as string | undefined };
 
@@ -15,49 +15,20 @@ type SignInFormProps = {
 
 export function SignInForm({ callbackUrl = "/dashboard" }: SignInFormProps) {
   const [state, formAction, pending] = useActionState(signInAction, initialState);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-
-    const parsed = signInSchema.safeParse({
-      email: formData.get("email"),
-      password: formData.get("password"),
-    });
-
-    if (!parsed.success) {
-      const errors: Record<string, string> = {};
-      for (const issue of parsed.error.errors) {
-        const key = issue.path[0];
-        if (key && !errors[String(key)]) {
-          errors[String(key)] = issue.message;
-        }
-      }
-      setFieldErrors(errors);
-      return;
-    }
-
-    setFieldErrors({});
-    formAction(formData);
-  }
 
   return (
     <div className="rounded-2xl bg-white px-8 py-10 shadow-card">
       <header className="mb-8 space-y-2 text-center">
-        <h1 className="text-2xl font-bold text-slate-900">
-          Welcome back to{" "}
-          <span className="text-brand-500">
-            rinse<span className="font-normal">hq</span>
-          </span>
+        <h1 className="flex flex-wrap items-center justify-center gap-2 text-2xl font-bold text-slate-900">
+          Welcome back to
+          <RinseHqLogo variant="light" className="h-7 w-auto" />
         </h1>
         <p className="text-sm text-slate-500">
           Sign in to manage your laundry services
         </p>
       </header>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form action={formAction} className="space-y-5">
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
 
         <Input
@@ -66,16 +37,12 @@ export function SignInForm({ callbackUrl = "/dashboard" }: SignInFormProps) {
           label="Email"
           placeholder="Enter email address"
           autoComplete="email"
-          required
-          error={fieldErrors.email}
         />
         <PasswordInput
           name="password"
           label="Password"
           placeholder="••••••••"
           autoComplete="current-password"
-          required
-          error={fieldErrors.password}
         />
 
         {state.error ? (

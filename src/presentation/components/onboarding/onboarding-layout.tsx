@@ -3,12 +3,12 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { RinseHqLogo } from "@/presentation/components/ui/rinsehq-logo";
 
-type AuthLayoutProps = {
+type OnboardingLayoutProps = {
   children: ReactNode;
-  footer?: ReactNode;
+  wide?: boolean;
 };
 
-export function AuthLayout({ children, footer }: AuthLayoutProps) {
+export function OnboardingLayout({ children, wide }: OnboardingLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col lg:flex-row">
       <div className="flex items-center bg-brand-500 px-6 py-4 text-white lg:hidden">
@@ -22,12 +22,12 @@ export function AuthLayout({ children, footer }: AuthLayoutProps) {
         </Link>
 
         <div className="flex flex-1 flex-col items-center justify-center gap-8 text-center">
-          <div className="relative flex h-44 w-44 items-center justify-center">
+          <div className="relative flex h-52 w-52 items-center justify-center">
             <Image
-              src="/images/Account 3D Animated Icon.png"
+              src="/images/image 20.png"
               alt=""
-              width={176}
-              height={176}
+              width={208}
+              height={208}
               className="object-contain"
               priority
             />
@@ -40,8 +40,9 @@ export function AuthLayout({ children, footer }: AuthLayoutProps) {
       </aside>
 
       <main className="flex flex-1 flex-col items-center justify-center bg-surface px-4 py-10">
-        <div className="w-full max-w-md">{children}</div>
-        {footer ? <div className="mt-6 text-center text-sm">{footer}</div> : null}
+        <div className={wide ? "w-full max-w-2xl" : "w-full max-w-md"}>
+          {children}
+        </div>
       </main>
     </div>
   );

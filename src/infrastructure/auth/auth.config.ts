@@ -36,8 +36,13 @@ export const authConfig: NextAuthConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isDashboard = nextUrl.pathname.startsWith("/dashboard");
+      const isOnboarding = nextUrl.pathname.startsWith("/onboarding");
       const isAuthPage =
-        nextUrl.pathname === "/login" || nextUrl.pathname === "/signup";
+        nextUrl.pathname === "/login" ||
+        nextUrl.pathname === "/signup" ||
+        nextUrl.pathname === "/activate-email" ||
+        nextUrl.pathname === "/account-activated" ||
+        isOnboarding;
 
       if (isDashboard) return isLoggedIn;
       if (isAuthPage && isLoggedIn) {

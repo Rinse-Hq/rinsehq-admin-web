@@ -20,9 +20,18 @@ const statusStyles: Record<
   },
 };
 
-export function OrderHistoryTable() {
+type OrderHistoryTableProps = {
+  className?: string;
+};
+
+export function OrderHistoryTable({ className }: OrderHistoryTableProps) {
   return (
-    <article className="rounded-xl border border-slate-100 bg-white">
+    <article
+      className={cn(
+        "rounded-xl border border-slate-100 bg-white",
+        className,
+      )}
+    >
       <div className="border-b border-slate-100 p-5">
         <h2 className="font-serif text-lg font-semibold text-slate-800">
           Latest Order History

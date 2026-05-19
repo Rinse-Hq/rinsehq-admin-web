@@ -1,8 +1,9 @@
+import { OrderHistoryTable } from "@/presentation/components/dashboard/order-history-table";
 import Link from "next/link";
 
 export default function OrdersPage() {
   return (
-    <section className="flat-card p-6">
+    <section className="">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-semibold text-slate-900">Orders</h1>
@@ -14,6 +15,7 @@ export default function OrdersPage() {
           Create Order
         </Link>
       </div>
+      <OrderHistoryTable className="mt-6" />
     </section>
   );
 }

@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { useDashboardNav } from "@/presentation/components/dashboard/dashboard-nav-context";
+import { RinseHqLogo } from "@/presentation/components/ui/rinsehq-logo";
 import { cn } from "@/presentation/lib/utils";
 
 type NavItem = {
@@ -27,13 +30,97 @@ const secondaryNav: NavItem[] = [
 
 export function DashboardSidebar() {
   const pathname = usePathname();
+  const { isCollapsed, isMobileOpen, closeMobile } = useDashboardNav();
+
+  useEffect(() => {
+    closeMobile();
+  }, [pathname, closeMobile]);
 
   return (
-    <aside className="hidden w-[220px] shrink-0 flex-col bg-sidebar text-white lg:flex">
-      <nav className="flex flex-1 flex-col px-3 py-6">
+    <>
+      {isMobileOpen ? (
+        <button
+          type="button"
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          onClick={closeMobile}
+          aria-label="Close menu"
+        />
+      ) : null}
+
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 flex w-[260px] flex-col bg-sidebar text-white transition-transform duration-300 ease-in-out lg:hidden",
+          isMobileOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+        aria-hidden={!isMobileOpen}
+      >
+        <SidebarPanel
+          pathname={pathname}
+          collapsed={false}
+          onNavigate={closeMobile}
+          showMobileHeader
+          onClose={closeMobile}
+        />
+      </aside>
+
+      <aside
+        className={cn(
+          "hidden shrink-0 flex-col bg-sidebar text-white transition-[width] duration-300 ease-in-out lg:flex",
+          isCollapsed ? "w-[72px]" : "w-[220px]",
+        )}
+      >
+        <SidebarPanel pathname={pathname} collapsed={isCollapsed} />
+      </aside>
+    </>
+  );
+}
+
+function SidebarPanel({
+  pathname,
+  collapsed,
+  onNavigate,
+  showMobileHeader,
+  onClose,
+}: {
+  pathname: string;
+  collapsed: boolean;
+  onNavigate?: () => void;
+  showMobileHeader?: boolean;
+  onClose?: () => void;
+}) {
+  return (
+    <>
+      {showMobileHeader ? (
+        <div className="flex h-[72px] shrink-0 items-center gap-3 border-b border-white/15 px-4">
+          <Link href="/dashboard" className="shrink-0" onClick={onNavigate}>
+            <RinseHqLogo variant="dark" className="h-7 w-auto" />
+          </Link>
+          <button
+            type="button"
+            className="ml-auto rounded-lg p-2 text-white/90 hover:bg-white/10"
+            onClick={onClose}
+            aria-label="Close menu"
+          >
+            <CloseIcon className="h-5 w-5" />
+          </button>
+        </div>
+      ) : null}
+
+      <nav
+        className={cn(
+          "flex flex-1 flex-col overflow-y-auto px-3",
+          showMobileHeader ? "py-4" : "py-6",
+        )}
+      >
         <ul className="space-y-1">
           {primaryNav.map((item) => (
-            <NavLink key={item.href} item={item} pathname={pathname} />
+            <NavLink
+              key={item.href}
+              item={item}
+              pathname={pathname}
+              collapsed={collapsed}
+              onNavigate={onNavigate}
+            />
           ))}
         </ul>
 
@@ -41,20 +128,30 @@ export function DashboardSidebar() {
 
         <ul className="space-y-1">
           {secondaryNav.map((item) => (
-            <NavLink key={item.href} item={item} pathname={pathname} />
+            <NavLink
+              key={item.href}
+              item={item}
+              pathname={pathname}
+              collapsed={collapsed}
+              onNavigate={onNavigate}
+            />
           ))}
         </ul>
       </nav>
-    </aside>
+    </>
   );
 }
 
 function NavLink({
   item,
   pathname,
+  collapsed,
+  onNavigate,
 }: {
   item: NavItem;
   pathname: string;
+  collapsed: boolean;
+  onNavigate?: () => void;
 }) {
   const { href, label, icon: Icon, hasChevron } = item;
   const active =
@@ -64,17 +161,24 @@ function NavLink({
     <li>
       <Link
         href={href}
+        title={collapsed ? label : undefined}
+        onClick={onNavigate}
         className={cn(
           "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
           active
             ? "bg-sidebar-active text-white"
             : "text-white/90 hover:bg-white/10",
+          collapsed && "justify-center px-2",
         )}
       >
         <Icon className="h-5 w-5 shrink-0 opacity-90" />
-        <span className="flex-1">{label}</span>
-        {hasChevron ? (
-          <ChevronIcon className="h-4 w-4 opacity-70" />
+        {!collapsed ? (
+          <>
+            <span className="flex-1">{label}</span>
+            {hasChevron ? (
+              <ChevronIcon className="h-4 w-4 opacity-70" />
+            ) : null}
+          </>
         ) : null}
       </Link>
     </li>
@@ -156,6 +260,14 @@ function ChevronIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
       <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function CloseIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   );
 }

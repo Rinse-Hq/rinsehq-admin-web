@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { signOutAction } from "@/presentation/actions/auth-actions";
+import { useDashboardNav } from "@/presentation/components/dashboard/dashboard-nav-context";
 import { RinseHqLogo } from "@/presentation/components/ui/rinsehq-logo";
 
 type DashboardHeaderProps = {
@@ -8,9 +11,32 @@ type DashboardHeaderProps = {
 
 export function DashboardHeader({ userName }: DashboardHeaderProps) {
   const displayName = userName ?? "Laundry Care";
+  const { isCollapsed, toggleCollapsed, openMobile } = useDashboardNav();
 
   return (
-    <header className="flex h-[72px] shrink-0 items-center gap-4 border-b border-slate-200 bg-white px-5 lg:px-6">
+    <header className="flex h-[72px] shrink-0 items-center gap-3 border-b border-slate-200 bg-white px-4 sm:gap-4 sm:px-5 lg:px-6">
+      <button
+        type="button"
+        className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 lg:hidden"
+        onClick={openMobile}
+        aria-label="Open menu"
+      >
+        <MenuIcon className="h-5 w-5" />
+      </button>
+
+      <button
+        type="button"
+        className="hidden rounded-lg p-2 text-slate-600 hover:bg-slate-100 lg:inline-flex"
+        onClick={toggleCollapsed}
+        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+      >
+        {isCollapsed ? (
+          <PanelExpandIcon className="h-5 w-5" />
+        ) : (
+          <PanelCollapseIcon className="h-5 w-5" />
+        )}
+      </button>
+
       <Link href="/dashboard" className="shrink-0">
         <RinseHqLogo variant="light" className="h-7 w-auto" />
       </Link>
@@ -27,7 +53,7 @@ export function DashboardHeader({ userName }: DashboardHeaderProps) {
         </label>
       </div>
 
-      <div className="ml-auto flex shrink-0 items-center gap-4">
+      <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-4">
         <button
           type="button"
           className="rounded-full p-2 text-slate-500 hover:bg-slate-100"
@@ -55,6 +81,32 @@ export function DashboardHeader({ userName }: DashboardHeaderProps) {
         </form>
       </div>
     </header>
+  );
+}
+
+function MenuIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function PanelCollapseIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <rect x="3" y="4" width="7" height="16" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M14 8L18 12L14 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function PanelExpandIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <rect x="3" y="4" width="7" height="16" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M18 8L14 12L18 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 

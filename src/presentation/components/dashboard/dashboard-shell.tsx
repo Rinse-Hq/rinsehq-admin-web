@@ -1,5 +1,8 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { DashboardHeader } from "@/presentation/components/dashboard/dashboard-header";
+import { DashboardNavProvider } from "@/presentation/components/dashboard/dashboard-nav-context";
 import { DashboardSidebar } from "@/presentation/components/dashboard/dashboard-sidebar";
 
 type DashboardShellProps = {
@@ -9,12 +12,14 @@ type DashboardShellProps = {
 
 export function DashboardShell({ children, userName }: DashboardShellProps) {
   return (
-    <div className="flex min-h-screen bg-surface">
-      <DashboardSidebar />
-      <div className="flex min-w-0 flex-1 flex-col">
-        <DashboardHeader userName={userName} />
-        <main className="flex-1 overflow-auto p-5 lg:p-6">{children}</main>
+    <DashboardNavProvider>
+      <div className="flex min-h-screen bg-surface">
+        <DashboardSidebar />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <DashboardHeader userName={userName} />
+          <main className="flex-1 overflow-auto p-4 sm:p-5 lg:p-6">{children}</main>
+        </div>
       </div>
-    </div>
+    </DashboardNavProvider>
   );
 }

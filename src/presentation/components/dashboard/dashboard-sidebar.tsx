@@ -90,11 +90,21 @@ function SidebarPanel({
 }) {
   return (
     <>
-      {showMobileHeader ? (
-        <div className="flex h-[72px] shrink-0 items-center gap-3 border-b border-white/15 px-4">
-          <Link href="/dashboard" className="shrink-0" onClick={onNavigate}>
+      <div className="flex h-[72px] shrink-0 items-center gap-3 border-b border-white/15 px-4">
+        <Link
+          href="/dashboard"
+          className={cn("shrink-0", collapsed && "mx-auto")}
+          onClick={onNavigate}
+        >
+          {collapsed ? (
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 text-sm font-bold">
+              R
+            </span>
+          ) : (
             <RinseHqLogo variant="dark" className="h-7 w-auto" />
-          </Link>
+          )}
+        </Link>
+        {showMobileHeader ? (
           <button
             type="button"
             className="ml-auto rounded-lg p-2 text-white/90 hover:bg-white/10"
@@ -103,8 +113,8 @@ function SidebarPanel({
           >
             <CloseIcon className="h-5 w-5" />
           </button>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
 
       <nav
         className={cn(

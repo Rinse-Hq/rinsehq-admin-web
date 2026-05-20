@@ -37,7 +37,7 @@ export function DashboardHeader({ userName }: DashboardHeaderProps) {
         )}
       </button>
 
-      <Link href="/dashboard" className="shrink-0">
+      <Link href="/dashboard" className="shrink-0 lg:hidden">
         <RinseHqLogo variant="light" className="h-7 w-auto" />
       </Link>
 

@@ -11,6 +11,8 @@ export type OrderRow = {
   deliveryMode: string;
 };
 
+export { latestOrders } from "@/presentation/data/orders-mock-data";
+
 export const orderSummary = [
   {
     label: "Active Order",
@@ -51,57 +53,4 @@ export const chartTimeLabels = [
   "3:00 PM",
   "4:00 PM",
   "5:00 PM",
-];
-
-export const latestOrders: OrderRow[] = [
-  {
-    id: "12345678",
-    type: "Mobile app",
-    orderDate: "03/01/25, 12:00pm",
-    customer: "Olayiwola, Samuel",
-    amount: "N15,000",
-    status: "active",
-    deliveryDate: "03/01/25, 12:00pm",
-    deliveryMode: "Pickup & delivery",
-  },
-  {
-    id: "12345678",
-    type: "Offline",
-    orderDate: "03/01/25, 12:00pm",
-    customer: "Olayiwola, Samuel",
-    amount: "N15,000",
-    status: "pending",
-    deliveryDate: "03/01/25, 12:00pm",
-    deliveryMode: "Customer rider",
-  },
-  {
-    id: "12345678",
-    type: "Mobile app",
-    orderDate: "03/01/25, 12:00pm",
-    customer: "Olayiwola, Samuel",
-    amount: "N15,000",
-    status: "completed",
-    deliveryDate: "03/01/25, 12:00pm",
-    deliveryMode: "Pickup only",
-  },
-  {
-    id: "12345678",
-    type: "Offline",
-    orderDate: "03/01/25, 12:00pm",
-    customer: "Olayiwola, Samuel",
-    amount: "N15,000",
-    status: "active",
-    deliveryDate: "03/01/25, 12:00pm",
-    deliveryMode: "Pickup & delivery",
-  },
-  {
-    id: "12345678",
-    type: "Mobile app",
-    orderDate: "03/01/25, 12:00pm",
-    customer: "Olayiwola, Samuel",
-    amount: "N15,000",
-    status: "pending",
-    deliveryDate: "03/01/25, 12:00pm",
-    deliveryMode: "Customer rider",
-  },
 ];

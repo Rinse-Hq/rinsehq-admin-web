@@ -5,6 +5,8 @@ import type {
   CreateUserInput,
 } from "@/domain/repositories/auth-repository";
 import type { RepositoryResult } from "@/domain/repositories/auth-repository";
+import { demoAccounts } from "@/presentation/data/demo-accounts";
+import { storeRepository } from "@/infrastructure/stores/in-memory-store-repository";
 
 type StoredUser = User & { passwordHash: string };
 
@@ -18,12 +20,6 @@ const verificationCodes = new Map<string, VerificationEntry>();
 
 const OTP_EXPIRY_MS = 15 * 60 * 1000;
 
-const DEMO_USER = {
-  email: "demo@rinsehq.com",
-  password: "Demo1234!",
-  name: "Laundry Care",
-};
-
 function generateOtp(): string {
   return String(Math.floor(100000 + Math.random() * 900000));
 }
@@ -35,33 +31,65 @@ function normalizeEmail(email: string): string {
 export class InMemoryAuthRepository implements AuthRepository {
   private seeded = false;
 
-  private async ensureDemoUser() {
+  private async ensureDemoUsers() {
     if (this.seeded) return;
     this.seeded = true;
 
-    const existing = await this.findByEmail(DEMO_USER.email);
-    if (!existing) {
-      await this.create({
-        email: DEMO_USER.email,
-        password: DEMO_USER.password,
-        name: DEMO_USER.name,
-      });
-      const stored = await this.getStoredByEmail(DEMO_USER.email);
-      if (stored) {
-        stored.emailVerified = true;
-        users.set(stored.id, stored);
+    for (const account of demoAccounts) {
+      if (this.getStoredByEmailSync(account.email)) continue;
+
+      if (account.role === "super_admin" || account.role === "owner") {
+        await this.create({
+          email: account.email,
+          password: account.password,
+          name: account.name,
+        });
+        const stored = this.getStoredByEmailSync(account.email);
+        if (stored) {
+          stored.emailVerified = true;
+          users.set(stored.id, stored);
+          storeRepository.seedOwnerStores(stored.id, account.email);
+        }
+        continue;
       }
+
+      await this.createDemoMember(account.email, account.password, account.name);
+    }
+
+    const owner = this.getStoredByEmailSync("demo@rinsehq.com");
+    if (owner) {
+      storeRepository.seedOwnerStores(owner.id, owner.email);
     }
   }
 
+  private async createDemoMember(
+    email: string,
+    password: string,
+    name: string,
+  ): Promise<User> {
+    const normalized = normalizeEmail(email);
+    const id = crypto.randomUUID();
+    const passwordHash = await hash(password, 12);
+    const user: StoredUser = {
+      id,
+      email: normalized,
+      name,
+      emailVerified: true,
+      createdAt: new Date(),
+      passwordHash,
+    };
+    users.set(id, user);
+    return this.toPublic(user);
+  }
+
   async findByEmail(email: string): Promise<User | null> {
-    await this.ensureDemoUser();
+    await this.ensureDemoUsers();
     const stored = await this.getStoredByEmail(email);
     return stored ? this.toPublic(stored) : null;
   }
 
   async create(input: CreateUserInput): Promise<User> {
-    await this.ensureDemoUser();
+    await this.ensureDemoUsers();
     const email = normalizeEmail(input.email);
     const id = crypto.randomUUID();
     const passwordHash = await hash(input.password, 12);
@@ -74,13 +102,17 @@ export class InMemoryAuthRepository implements AuthRepository {
       passwordHash,
     };
     users.set(id, user);
+    storeRepository.createMainStore({
+      ownerUserId: id,
+      businessName: user.name,
+    });
     return this.toPublic(user);
   }
 
   async validateCredentials(
     credentials: UserCredentials,
   ): Promise<User | null> {
-    await this.ensureDemoUser();
+    await this.ensureDemoUsers();
     const stored = await this.getStoredByEmail(credentials.email);
     if (!stored) return null;
 
@@ -152,8 +184,7 @@ export class InMemoryAuthRepository implements AuthRepository {
     return { success: true, data: undefined };
   }
 
-  private async getStoredByEmail(email: string): Promise<StoredUser | null> {
-    await this.ensureDemoUser();
+  private getStoredByEmailSync(email: string): StoredUser | null {
     const normalized = normalizeEmail(email);
     for (const user of users.values()) {
       if (user.email === normalized) {
@@ -161,6 +192,11 @@ export class InMemoryAuthRepository implements AuthRepository {
       }
     }
     return null;
+  }
+
+  private async getStoredByEmail(email: string): Promise<StoredUser | null> {
+    await this.ensureDemoUsers();
+    return this.getStoredByEmailSync(email);
   }
 
   private toPublic(user: StoredUser): User {

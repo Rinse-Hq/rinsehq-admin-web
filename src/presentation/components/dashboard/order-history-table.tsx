@@ -1,5 +1,6 @@
-import type { OrderRow, OrderStatus } from "@/presentation/data/dashboard-mock-data";
-import { latestOrders } from "@/presentation/data/dashboard-mock-data";
+import type { OrderRow, OrderStatus } from "@/presentation/data/orders-mock-data";
+import { latestOrders } from "@/presentation/data/orders-mock-data";
+import Link from "next/link";
 import { cn } from "@/presentation/lib/utils";
 
 const statusStyles: Record<
@@ -94,8 +95,8 @@ export function OrderHistoryTable({ className }: OrderHistoryTableProps) {
             </tr>
           </thead>
           <tbody>
-            {latestOrders.map((order, index) => (
-              <OrderTableRow key={`${order.id}-${index}`} order={order} />
+            {latestOrders.map((order) => (
+              <OrderTableRow key={order.id} order={order} />
             ))}
           </tbody>
         </table>
@@ -112,7 +113,14 @@ function OrderTableRow({ order }: { order: OrderRow }) {
       <td className="px-4 py-3">
         <input type="checkbox" className="rounded border-slate-300" aria-label={`Select order ${order.id}`} />
       </td>
-      <td className="px-4 py-3 font-medium text-slate-800">{order.id}</td>
+      <td className="px-4 py-3 font-medium text-slate-800">
+        <Link
+          href={`/dashboard/orders/${order.id}`}
+          className="text-brand-600 hover:underline"
+        >
+          {order.id}
+        </Link>
+      </td>
       <td className="px-4 py-3 text-slate-600">{order.type}</td>
       <td className="px-4 py-3 text-slate-600">{order.orderDate}</td>
       <td className="px-4 py-3 text-slate-600">{order.customer}</td>
@@ -130,13 +138,13 @@ function OrderTableRow({ order }: { order: OrderRow }) {
       <td className="px-4 py-3 text-slate-600">{order.deliveryDate}</td>
       <td className="px-4 py-3 text-slate-600">{order.deliveryMode}</td>
       <td className="px-4 py-3">
-        <button
-          type="button"
+        <Link
+          href={`/dashboard/orders/${order.id}`}
           className="rounded p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
-          aria-label="View order options"
+          aria-label={`View order ${order.id}`}
         >
           <MoreIcon className="h-5 w-5" />
-        </button>
+        </Link>
       </td>
     </tr>
   );

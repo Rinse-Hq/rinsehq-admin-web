@@ -3,14 +3,29 @@
 import Link from "next/link";
 import { signOutAction } from "@/presentation/actions/auth-actions";
 import { useDashboardNav } from "@/presentation/components/dashboard/dashboard-nav-context";
+import { StoreSwitcher } from "@/presentation/components/dashboard/store-switcher";
 import { RinseHqLogo } from "@/presentation/components/ui/rinsehq-logo";
+import type { StoreAccess } from "@/presentation/data/stores-data";
+import { permissionLevelLabels } from "@/presentation/data/account-mock-data";
+import type { AdminPermissionLevel } from "@/presentation/data/account-mock-data";
 
 type DashboardHeaderProps = {
   userName?: string | null;
+  storeName?: string | null;
+  storeId?: string | null;
+  permissionLevel?: AdminPermissionLevel | null;
+  accessibleStores?: StoreAccess[];
 };
 
-export function DashboardHeader({ userName }: DashboardHeaderProps) {
+export function DashboardHeader({
+  userName,
+  storeName,
+  storeId,
+  permissionLevel,
+  accessibleStores = [],
+}: DashboardHeaderProps) {
   const displayName = userName ?? "Laundry Care";
+  const activeStore = storeName ?? "Main Store";
   const { isCollapsed, toggleCollapsed, openMobile } = useDashboardNav();
 
   return (
@@ -54,6 +69,11 @@ export function DashboardHeader({ userName }: DashboardHeaderProps) {
       </div>
 
       <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-4">
+        <StoreSwitcher
+          stores={accessibleStores}
+          activeStoreId={storeId ?? accessibleStores[0]?.storeId ?? ""}
+        />
+
         <button
           type="button"
           className="rounded-full p-2 text-slate-500 hover:bg-slate-100"
@@ -63,12 +83,17 @@ export function DashboardHeader({ userName }: DashboardHeaderProps) {
         </button>
 
         <div className="flex items-center gap-2.5">
+          <div className="hidden text-right sm:block">
+            <p className="text-sm font-medium text-slate-800">{displayName}</p>
+            <p className="text-xs text-slate-500">
+              {permissionLevel
+                ? permissionLevelLabels[permissionLevel]
+                : activeStore}
+            </p>
+          </div>
           <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-brand-100 text-sm font-semibold text-brand-700">
             {displayName.charAt(0)}
           </div>
-          <span className="hidden text-sm font-medium text-slate-800 sm:block">
-            {displayName}
-          </span>
         </div>
 
         <form action={signOutAction} className="hidden sm:block">

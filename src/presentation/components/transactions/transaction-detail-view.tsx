@@ -101,7 +101,7 @@ export function TransactionDetailView({ transaction }: TransactionDetailViewProp
                 label="Order ID"
                 value={
                   <Link
-                    href={`/dashboard/orders`}
+                    href={`/dashboard/orders/${transaction.orderId}`}
                     className="font-medium text-brand-600 hover:underline"
                   >
                     {transaction.orderId}

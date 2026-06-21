@@ -29,9 +29,18 @@ const typeLabels: Record<TransactionRow["type"], string> = {
   refund: "Refund",
 };
 
-export function TransactionsTable() {
+type TransactionsTableProps = {
+  className?: string;
+};
+
+export function TransactionsTable({ className }: TransactionsTableProps) {
   return (
-    <article className="flat-card overflow-hidden">
+    <article
+      className={cn(
+        "rounded-xl border border-slate-100 bg-white",
+        className,
+      )}
+    >
       <div className="border-b border-slate-100 p-5">
         <h2 className="font-serif text-lg font-semibold text-slate-800">
           All Transactions
@@ -113,7 +122,14 @@ function TransactionTableRow({ transaction }: { transaction: TransactionRow }) {
 
   return (
     <tr className="border-b border-slate-50 hover:bg-slate-50/50">
-      <td className="px-4 py-3 font-medium text-slate-800">{transaction.id}</td>
+      <td className="px-4 py-3 font-medium text-slate-800">
+        <Link
+          href={`/dashboard/transactions/${transaction.id}`}
+          className="text-brand-600 hover:underline"
+        >
+          {transaction.id}
+        </Link>
+      </td>
       <td className="px-4 py-3 font-mono text-xs text-slate-600">{transaction.reference}</td>
       <td className="px-4 py-3 text-slate-600">{transaction.orderId}</td>
       <td className="px-4 py-3 text-slate-600">{transaction.customer}</td>
@@ -134,9 +150,10 @@ function TransactionTableRow({ transaction }: { transaction: TransactionRow }) {
       <td className="px-4 py-3">
         <Link
           href={`/dashboard/transactions/${transaction.id}`}
-          className="text-sm font-medium text-brand-600 hover:text-brand-700 hover:underline"
+          className="rounded p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+          aria-label={`View transaction ${transaction.id}`}
         >
-          View
+          <MoreIcon className="h-5 w-5" />
         </Link>
       </td>
     </tr>
@@ -154,6 +171,16 @@ function ExportIcon({ className }: { className?: string }) {
         strokeLinejoin="round"
       />
       <path d="M4 20H20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function MoreIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <circle cx="12" cy="6" r="1.5" />
+      <circle cx="12" cy="12" r="1.5" />
+      <circle cx="12" cy="18" r="1.5" />
     </svg>
   );
 }

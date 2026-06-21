@@ -20,7 +20,6 @@ export function SignInForm({ callbackUrl = "/dashboard" }: SignInFormProps) {
     <div className="flat-card px-8 py-10">
       <header className="mb-8 space-y-2 text-center">
         <h1 className="flex flex-wrap items-center justify-center gap-2 text-2xl font-bold text-slate-900">
-          Welcome back to
           <RinseHqLogo variant="light" className="h-7 w-auto" />
         </h1>
         <p className="text-sm text-slate-500">
